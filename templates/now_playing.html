@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #0056b3;
+            margin-bottom: 25px;
+        }
+        .flash-messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+        .flash-messages li {
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 5px;
+            border: 1px solid;
+            font-size: 0.95em;
+        }
+        .flash-messages li.success {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        .flash-messages li.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        .flash-messages li.info {
+            background-color: #e2e3e5;
+            color: #383d41;
+            border-color: #d6d8db;
+        }
+        video {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .no-movie-message {
+            font-size: 1.2em;
+            color: #888;
+            margin-top: 30px;
+        }
+        .upload-info { /* Style for the timestamp */
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Current Movie</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flash-messages">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% if movie_exists %}
+            {% if upload_timestamp %}
+                <p class="upload-info">Uploaded on: {{ upload_timestamp }}</p>
+            {% endif %}
+            <video controls autoplay loop> {# Added loop attribute #}
+                <source src="{{ movie_url }}" type="video/mp4">
+                <source src="{{ movie_url }}" type="video/webm">
+                Your browser does not support the video tag.
+            </video>
+        {% else %}
+            <p class="no-movie-message">No movie loaded yet. Please upload one using the script!</p>
+            <p class="upload-info">(Run `python send_move.py` from your terminal)</p>
+        {% endif %}
+
+        {# Removed the entire upload form HTML from here #}
+    </div>
+</body>
+</html>
