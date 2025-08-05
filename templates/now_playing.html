@@ -91,7 +91,7 @@
 
         {% if movie_exists %}
             {% if upload_timestamp %}
-                <p class="upload-info">Uploaded on: {{ upload_timestamp }}</p>
+                <p class="upload-info">Uploaded on (UTC): {{ upload_timestamp }}</p>
             {% endif %}
             <video controls autoplay loop> {# Added loop attribute #}
                 <source src="{{ movie_url }}" type="video/mp4">
